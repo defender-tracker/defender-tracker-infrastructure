@@ -14,6 +14,8 @@ phases:
       - export TF_IN_AUTOMATION=true
       - export TF_WORKSPACE=preprod
       - terraform init -input=false
+      - aws s3 ls
+      - aws s3 defender-tracker-terraform-state ls
 
   build:
     commands:
