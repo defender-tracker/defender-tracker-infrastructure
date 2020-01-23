@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+
+  install:
+    commands:
+      - "apt install unzip -y"
+      - "wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip"
+      - "unzip terraform_0.12.18_linux_amd64.zip"
+      - "mv terraform /usr/local/bin/"
+        
+  pre_build:
+    commands:
+      - terraform init
+      - terraform workspace select prod
+
+  build:
+    commands:
+      - terraform $TF_COMMAND -auto-approve
+
+  post_build:
+    commands:
+      - echo terraform $TF_COMMAND completed.
