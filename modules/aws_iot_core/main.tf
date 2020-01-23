@@ -42,12 +42,6 @@ resource "aws_iot_topic_rule" "rule" {
   sql         = "SELECT * FROM '${var.mqtt_topic}'"
   sql_version = "2015-10-08"
 
-  dynamodb {
-    hash_key_field = ""
-    hash_key_value = ""
-    role_arn = ""
-    table_name = ""
-  }
 }
 
 resource "aws_iam_role" "tracker_role" {

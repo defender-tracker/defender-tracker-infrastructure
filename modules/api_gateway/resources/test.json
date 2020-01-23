@@ -1,0 +1,23 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -1.1257,
+          53.52398,
+          22.6
+        ],
+        "type": "Point"
+      },
+  "properties": {
+    "course": 113.1,
+    "distance": 13011.306,
+    "interval_distance": 36.2,
+    "slope": 8.0,
+    "timestamp": "2020-01-14T10:05:00"
+  },
+  "type": "Feature"
+}
+],
+"type": "FeatureCollection"
+}

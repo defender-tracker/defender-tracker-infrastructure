@@ -13,9 +13,4 @@ resource "aws_dynamodb_table" "gps_dynamodb_table" {
     name = "timestamp"
     type = "S"
   }
-
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
 }
