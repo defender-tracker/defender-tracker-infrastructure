@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - aws s3 ls
-      - aws s3 defender-tracker-terraform-state ls
+      - aws s3 ls defender-tracker-terraform-state
       - export TF_IN_AUTOMATION=true
       - export TF_WORKSPACE=preprod
       - terraform init -input=false
