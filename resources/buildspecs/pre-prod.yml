@@ -8,11 +8,12 @@ phases:
       - "wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip"
       - "unzip terraform_0.12.18_linux_amd64.zip"
       - "mv terraform /usr/local/bin/"
-        
+
   pre_build:
     commands:
+      - export TF_IN_AUTOMATION=true
+      - export TF_WORKSPACE=preprod
       - terraform init
-      - terraform workspace select preprod
 
   build:
     commands:
