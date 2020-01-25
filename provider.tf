@@ -6,7 +6,6 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    encrypt = true
     bucket = "defender-tracker-terraform-state"
     key = "terraform.tfstate"
     region = "eu-west-2"
