@@ -42,6 +42,11 @@ resource "aws_iot_topic_rule" "rule" {
   sql         = "SELECT * FROM '${var.mqtt_topic}'"
   sql_version = "2015-10-08"
 
+  sns {
+    role_arn = var.sns_role_arn
+    target_arn = var.sns_topic_arn
+  }
+
 }
 
 resource "aws_iam_role" "tracker_role" {

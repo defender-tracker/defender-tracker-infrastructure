@@ -13,3 +13,16 @@ variable "mqtt_topic" {
   description = "The topic to which the thing publishes data."
 }
 
+
+variable "sns_topic_arn" {
+  type = string
+  description = "The SNS topic to send the data from the IoT Thing."
+}
+
+variable "sns_role_arn" {
+  type = string
+  description = "The role which has permission to send the data to the SNS Topic."
+}
+
+
+
