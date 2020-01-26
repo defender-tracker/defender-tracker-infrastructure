@@ -24,5 +24,11 @@ variable "sns_role_arn" {
   description = "The role which has permission to send the data to the SNS Topic."
 }
 
+variable "certificate_arn" {
+  type = string
+  description = "The ARN of the AWS IoT Certificate to be used for this thing."
+}
+
+
 
 

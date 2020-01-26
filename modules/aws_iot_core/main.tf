@@ -2,10 +2,6 @@ resource "aws_iot_thing" "tracker" {
   name = "${var.naming_prefix}_iot_thing"
 }
 
-resource "aws_iot_certificate" "defender_tracker_cert" {
-  active = true
-}
-
 resource "aws_iot_policy" "defender_tracker_iot_policy" {
   name = "${var.naming_prefix}_iot_policy"
 
@@ -27,11 +23,11 @@ EOF
 
 resource "aws_iot_policy_attachment" "att" {
   policy = aws_iot_policy.defender_tracker_iot_policy.name
-  target = aws_iot_certificate.defender_tracker_cert.arn
+  target = var.certificate_arn
 }
 
 resource "aws_iot_thing_principal_attachment" "att" {
-  principal = aws_iot_certificate.defender_tracker_cert.arn
+  principal = var.certificate_arn
   thing     = aws_iot_thing.tracker.name
 }
 
