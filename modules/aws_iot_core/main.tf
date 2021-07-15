@@ -6,21 +6,73 @@ resource "aws_iot_certificate" "defender_tracker_cert" {
   active = true
 }
 
-resource "aws_iot_policy" "defender_tracker_iot_policy" {
+resource "aws_iot_policy" "tracker_device_iot_policy" {
   name = "${var.naming_prefix}_iot_policy"
 
   policy = <<EOF
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "iot:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Connect"
+            ],
+            "Resource": [
+                "arn:aws:iot:eu-west-2:707979055938:client/$${iot:Connection.Thing.ThingName}""
+            ],
+            "Condition": {
+                "Bool": {
+                    "iot:Connection.Thing.IsAttached": ["true"]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Publish"
+            ],
+            "Resource": [
+                "arn:aws:iot:eu-west-2:707979055938:topic/$aws/things/$${iot:Connection.Thing.ThingName}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Subscribe"
+            ],
+            "Resource": [
+                "arn:aws:iot:eu-west-2:707979055938:topicfilter/$aws/things/$${iot:Connection.Thing.ThingName}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Receive"
+            ],
+            "Resource": [
+                "arn:aws:iot:eu-west-2:707979055938:topic/$aws/things/$${iot:Connection.Thing.ThingName}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:GetThingShadow"
+            ],
+            "Resource": [
+                "arn:aws:iot:us-east-1:123456789012:thing/$${iot:Connection.Thing.ThingName}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:UpdateThingShadow"
+            ],
+            "Resource": [
+                "arn:aws:iot:us-east-1:123456789012:thing/$${iot:Connection.Thing.ThingName}"
+            ]
+        }
+    ]
 }
 EOF
 }
@@ -39,7 +91,7 @@ resource "aws_iot_topic_rule" "rule" {
   name        = "${var.naming_prefix}_update_rule"
   description = "Upon receiving an update from the thing, this rule adds it to the defined DynamoDB."
   enabled     = true
-  sql         = "SELECT * FROM '${var.mqtt_topic}'"
+  sql         = "SELECT * as data, topic() as topic FROM '+/transit'"
   sql_version = "2015-10-08"
 
 }
